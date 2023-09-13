@@ -6,13 +6,12 @@ var logger = require("morgan");
 const dotenv = require("dotenv");
 const cors = require('cors')
 
-var usersRouter = require("./routes/users");
 
 dotenv.config();
 const teamARoute = require("./routes/team-a");
 const teamBRoute = require("./routes/team-b");
 const teamCRoute = require("./routes/team-c");
-const teamDRoute = require("./routes/team_d_routes/team-d");
+const teamDRoute = require("./routes/team-d");
 const teamERoute = require("./routes/team-e");
 const connectDb = require("./config/connectdb");
 
@@ -24,14 +23,13 @@ connectDb();
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
 
-app.use(cors())
+app.use(cors());
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/", usersRouter);
 app.use("/team-a", teamARoute);
 app.use("/team-b", teamBRoute);
 app.use("/team-c", teamCRoute);
@@ -44,8 +42,7 @@ app.use(function (req, res, next) {
 });
 
 // error handler
-app.use( ( err, req, res, next ) =>
-{
+app.use((err, req, res, next) => {
   res.status(err.status || 500);
   req.app.get("env") === "development"
     ? res.send({
@@ -54,7 +51,7 @@ app.use( ( err, req, res, next ) =>
           message: err.message,
         },
       })
-    : res.send("somethig went wrong");
+    : res.send("something went wrong");
 });
 
 module.exports = app;

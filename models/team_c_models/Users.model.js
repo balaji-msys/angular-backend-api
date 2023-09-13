@@ -32,19 +32,9 @@ const UserSchema = new mongoose.Schema({
   ],
 });
 
-// UserSchema.pre("save", async function (next) {
-//   try {
-//     const salt = await genSalt(10);
-//     this.password = await hash(this.password, salt);
-//     next();
-//   } catch (e) {
-//     next(e);
-//   }
-// });
 
 UserSchema.methods.isValidPassword = async function (password) {
   try {
-    // return await compare(password, this.password);
     return password === this.password;
   } catch (error) {
     throw error;
